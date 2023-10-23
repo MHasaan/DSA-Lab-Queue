@@ -2,6 +2,7 @@ public class Main {
     public static void main(String[] args)
     {
         Queue_linked quee = new Queue_linked();
+        //circularQueue quee = new circularQueue();
         quee.enqueue(12);
         quee.enqueue(13);
         quee.enqueue(14);

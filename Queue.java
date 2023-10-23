@@ -39,14 +39,14 @@ class Queue_linked
 
         if(!isEmpty())
         {
-            if(front.next != null)
-            {
-                front = front.next;
-            }
-            else
+            if(front == rear) //if only one
             {
                 front = null;
                 rear = null;
+            }
+            else
+            {
+                front = front.next;
             }
         }
         else
@@ -101,50 +101,118 @@ class Queue_linked
 
 
 
-    ///////////////////////////
+/////////////////////////////////////////////////////////////////////////
 
-class circularQueue
+class circularQueue 
 {
-    int front;
-    int rear;
-    int N;
+    Node front;  // head
+    Node rear;   // tail
+    int N;       // total/max size
+    int size;    // current size
     
+
     public circularQueue()
     {
-}
+        this.N = 15;
+        // this.front = null;   //not needed because this is assigned by default
+        // this.rear = null;
+        // this.size = 0;
+    }
+
+
     public circularQueue(int size)
     {
         this.N = size;
+        // this.front = null;
+        // this.rear = null;
+        // this.size = 0;
     }
 
-    boolean enqueue(int v)
-    {
-    return true;
-    }
 
-    int dequeue()
+    boolean enqueue(int data) 
     {
-        return 0;
-    }
+        if (isFull()) 
+        {
+            return false;
+        }
 
-    boolean isFull()
-    {
+        Node newNode = new Node(data);
+
+        if (isEmpty()) 
+        {
+            front = newNode;
+            rear = newNode;
+        }
+        else 
+        {
+            rear.next = newNode;
+            rear = newNode;
+        }
+
+        size++;
+        rear.next = front;
+
         return true;
     }
 
-    boolean isEmpty()
+
+    Node dequeue() 
     {
-        return true;
+        Node removedElement = front;
+
+        if ( !isEmpty() ) 
+        {
+            if (front == rear) 
+            {
+                front = null;
+                rear = null;
+            } 
+            else 
+            {
+                front = front.next;
+                rear.next = front;
+            }
+            size--;
+        }
+        return removedElement;
     }
 
-    public String toString()
+
+    boolean isFull() 
     {
-        return "true";
+        return size == N;
     }
 
-    int front()
+
+    boolean isEmpty() 
     {
-        return 0;
+        return size == 0;
     }
 
+
+    public String toString() 
+    {
+        String toReturn = "[";
+        
+        if (!isEmpty()) 
+        {
+            Node current = front;
+
+            while (current != rear) 
+            {
+                toReturn += current.data + ", ";
+                current = current.next;
+            }
+            toReturn += rear.data;
+        }
+        toReturn += "]";
+        
+        return toReturn;
+    }
+
+
+    int front() 
+    {
+        return front.data;
+    }
 }
